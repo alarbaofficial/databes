@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Wali Santri - Rumah Tahfidz Al Arba</title>
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        arba: {
+                            50: '#f4f7fb', 100: '#e5ecf5', 200: '#cddceb',
+                            500: '#6b93c4', 600: '#5278a9', 700: '#41618c',
+                            800: '#2d4669', 900: '#1e304b'
+                        }
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER NAVIGATION PORTAL -->
+    <header class="bg-gradient-to-r from-arba-900 via-arba-800 to-arba-900 text-white shadow-xl sticky top-0 z-40 border-b border-arba-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-white p-1.5 shadow-md flex items-center justify-center border border-arba-100">
+                        <img src="https://i.ibb.co/3ykG5M0/logo-alarba.jpg" alt="Logo Al Arba" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Al-Arba';">
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-extrabold leading-tight tracking-wide text-white">Portal Informasi Wali Santri</h1>
+                        <p class="text-xs text-arba-200 opacity-90 font-medium">Rumah Tahfidz Al Arba • Mode Baca Hasil Pembelajaran</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <span id="user-display-name" class="hidden sm:inline-block text-xs bg-arba-800 px-3.5 py-2 rounded-xl border border-arba-700 text-arba-100 font-semibold">
+                        Memuat Data...
+                    </span>
+                    <button onclick="handleLogout()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl font-bold text-xs transition shadow-md flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Keluar</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-6">
+
+        <!-- RINGKASAN PROFIL & STATUS KELAS SANTRI -->
+        <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm">
+            <div id="santri-profile-loading" class="text-center py-6 text-slate-500 text-xs flex flex-col items-center gap-2">
+                <i class="fa-solid fa-spinner fa-spin text-arba-500 text-xl"></i>
+                <span>Mengambil data perkembangan dan status santri...</span>
+            </div>
+
+            <div id="santri-profile-content" class="hidden space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-slate-100">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-arba-100 text-arba-800 text-[11px] font-bold rounded-full uppercase tracking-wider" id="santri-kelas">Kelas -</span>
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-[11px] font-bold rounded-full uppercase tracking-wider" id="santri-status">Status: Aktif</span>
+                        </div>
+                        <h2 class="text-2xl font-extrabold text-arba-900 mt-2" id="santri-nama">Nama Santri</h2>
+                        <p class="text-xs text-slate-500" id="santri-id-ortu">ID Santri: - | Orang Tua / Wali: -</p>
+                    </div>
+                </div>
+
+                <!-- METRICS RESUME (KEHADIRAN, CAPAIAN & INFAQ) -->
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 pt-1">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70">
+                        <span class="text-[11px] text-slate-500 font-semibold block">Kelompok & Level Kelas</span>
+                        <p class="text-sm font-extrabold text-arba-900 mt-1" id="santri-kelompok-kelas">-</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70">
+                        <span class="text-[11px] text-slate-500 font-semibold block">Capaian Pembelajaran Saat Ini</span>
+                        <p class="text-sm font-extrabold text-arba-900 mt-1" id="santri-capaian">-</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70">
+                        <span class="text-[11px] text-slate-500 font-semibold block">Persentase Kehadiran</span>
+                        <p class="text-sm font-extrabold text-emerald-600 mt-1" id="santri-persen-absen">92% (Hadir)</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/70">
+                        <span class="text-[11px] text-slate-500 font-semibold block">Status Infaq Bulanan</span>
+                        <p class="text-sm font-extrabold text-emerald-600 mt-1" id="santri-status-infaq">Lunas (Bulan Ini)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION TABS -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <div class="flex border-b border-slate-200 text-xs font-bold text-slate-600 overflow-x-auto">
+                <button onclick="switchTab('capaian')" id="tab-btn-capaian" class="px-6 py-4 border-b-2 border-arba-600 text-arba-700 bg-arba-50/50 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-book-quran"></i> Capaian & Mutaba'ah Hafalan
+                </button>
+                <button onclick="switchTab('absen')" id="tab-btn-absen" class="px-6 py-4 border-b-2 border-transparent hover:text-arba-600 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-user-check"></i> Keterangan Absen Kehadiran
+                </button>
+                <button onclick="switchTab('infaq')" id="tab-btn-infaq" class="px-6 py-4 border-b-2 border-transparent hover:text-arba-600 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-wallet"></i> Catatan Status Infaq
+                </button>
+            </div>
+
+            <!-- TAB CONTENT 1: CAPAIAN & MUTABAAH -->
+            <div id="tab-content-capaian" class="p-6 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-extrabold text-arba-900 text-sm">Riwayat Setoran & Hasil Pembelajaran Harian</h3>
+                    <span class="text-[11px] text-slate-400 font-medium">Update Terakhir Guru</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden">
+                        <thead class="bg-arba-900 text-white font-bold">
+                            <tr>
+                                <th class="p-3">Tanggal Setoran</th>
+                                <th class="p-3">Capaian Hafalan / Surah</th>
+                                <th class="p-3">Tingkat Kelancaran</th>
+                                <th class="p-3">Catatan Ustaz / Ustazah</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mutabaah-table-body" class="divide-y divide-slate-100">
+                            <tr>
+                                <td colspan="4" class="p-4 text-center text-slate-400">Memuat data capaian pembelajaran...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT 2: KETERANGAN ABSEN KEHADIRAN -->
+            <div id="tab-content-absen" class="p-6 space-y-4 hidden">
+                <h3 class="font-extrabold text-arba-900 text-sm">Rekapitulasi Keterangan Absen Kehadiran</h3>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4 text-center">
+                    <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                        <span class="text-[10px] font-bold text-emerald-800 uppercase">Hadir</span>
+                        <p class="text-lg font-extrabold text-emerald-700 mt-0.5" id="absen-cnt-hadir">24 Hari</p>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-xl border border-blue-200">
+                        <span class="text-[10px] font-bold text-blue-800 uppercase">Izin</span>
+                        <p class="text-lg font-extrabold text-blue-700 mt-0.5" id="absen-cnt-izin">2 Hari</p>
+                    </div>
+                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+                        <span class="text-[10px] font-bold text-amber-800 uppercase">Sakit</span>
+                        <p class="text-lg font-extrabold text-amber-700 mt-0.5" id="absen-cnt-sakit">1 Hari</p>
+                    </div>
+                    <div class="p-3 bg-rose-50 rounded-xl border border-rose-200">
+                        <span class="text-[10px] font-bold text-rose-800 uppercase">Alpa</span>
+                        <p class="text-lg font-extrabold text-rose-700 mt-0.5" id="absen-cnt-alpa">0 Hari</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden">
+                        <thead class="bg-slate-100 text-slate-700 font-bold">
+                            <tr>
+                                <th class="p-3 border">Tanggal</th>
+                                <th class="p-3 border">Kelompok Kelas</th>
+                                <th class="p-3 border">Keterangan Kehadiran</th>
+                            </tr>
+                        </thead>
+                        <tbody id="absen-table-body" class="divide-y divide-slate-100">
+                            <tr>
+                                <td colspan="3" class="p-4 text-center text-slate-400">Memuat catatan presensi...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT 3: CATATAN INFAQ -->
+            <div id="tab-content-infaq" class="p-6 space-y-4 hidden">
+                <h3 class="font-extrabold text-arba-900 text-sm">Catatan Status Pembayaran Infaq Bulanan</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden">
+                        <thead class="bg-arba-900 text-white font-bold">
+                            <tr>
+                                <th class="p-3">Periode Bulan</th>
+                                <th class="p-3">Nominal Infaq</th>
+                                <th class="p-3">Status Pembayaran</th>
+                                <th class="p-3">Tanggal Konfirmasi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="infaq-table-body" class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold">September 2026</td>
+                                <td class="p-3">Rp 150.000</td>
+                                <td class="p-3"><span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">LUNAS</span></td>
+                                <td class="p-3 text-slate-500">2026-09-05</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-semibold">Oktober 2026</td>
+                                <td class="p-3">Rp 150.000</td>
+                                <td class="p-3"><span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">LUNAS</span></td>
+                                <td class="p-3 text-slate-500">2026-10-03</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            &copy; 2026 Rumah Tahfidz Al Arba. Integrated Google Sheets System.
+        </div>
+    </footer>
+
+    <!-- CLIENT SCRIPT -->
+    <script>
+        let currentRelasiId = "";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentRelasiId = urlParams.get('u') || "";
+            
+            const sessionStr = sessionStorage.getItem('userSession');
+            if (sessionStr) {
+                const session = JSON.parse(sessionStr);
+                if (!currentRelasiId) currentRelasiId = session.relasiId;
+                document.getElementById('user-display-name').innerText = `${session.nama} (Wali Santri)`;
+            }
+
+            loadSantriData();
+            loadMutabaahLogs();
+        });
+
+        function loadSantriData() {
+            google.script.run.withSuccessHandler(data => {
+                const s = (data && data.length > 0) ? data[0] : {};
+                document.getElementById('santri-profile-loading').classList.add('hidden');
+                document.getElementById('santri-profile-content').classList.remove('hidden');
+
+                document.getElementById('santri-nama').innerText = s.nama || 'Nama Santri';
+                document.getElementById('santri-kelas').innerText = s.kelas || 'Kelas';
+                document.getElementById('santri-kelompok-kelas').innerText = s.kelas || '-';
+                document.getElementById('santri-id-ortu').innerText = `ID Santri: ${s.id || '-'} | Orang Tua / Wali: ${s.ortu || '-'}`;
+                document.getElementById('santri-capaian').innerText = s.capaian || '-';
+                document.getElementById('santri-status').innerText = `Status: ${s.status || 'Aktif'}`;
+            }).getSantriData(currentRelasiId, 'Wali/Santri');
+        }
+
+        function loadMutabaahLogs() {
+            google.script.run.withSuccessHandler(logs => {
+                const tbody = document.getElementById('mutabaah-table-body');
+                tbody.innerHTML = '';
+
+                if (!logs || logs.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Belum ada riwayat setoran hafalan.</td></tr>`;
+                    return;
+                }
+
+                logs.forEach(l => {
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-mono text-slate-500">${l.tanggal}</td>
+                            <td class="p-3 font-semibold text-arba-900">${l.capaian}</td>
+                            <td class="p-3"><span class="px-2 py-1 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">${l.kelancaran}</span></td>
+                            <td class="p-3 text-slate-600 italic">${l.catatan}</td>
+                        </tr>
+                    `;
+                });
+            }).getMutabaahLogs(currentRelasiId, 'Wali/Santri');
+        }
+
+        function switchTab(tabName) {
+            document.getElementById('tab-content-capaian').classList.add('hidden');
+            document.getElementById('tab-content-absen').classList.add('hidden');
+            document.getElementById('tab-content-infaq').classList.add('hidden');
+
+            const defaultStyle = "px-6 py-4 border-b-2 border-transparent hover:text-arba-600 flex items-center gap-2 whitespace-nowrap";
+            const activeStyle = "px-6 py-4 border-b-2 border-arba-600 text-arba-700 bg-arba-50/50 flex items-center gap-2 whitespace-nowrap";
+
+            document.getElementById('tab-btn-capaian').className = defaultStyle;
+            document.getElementById('tab-btn-absen').className = defaultStyle;
+            document.getElementById('tab-btn-infaq').className = defaultStyle;
+
+            if (tabName === 'capaian') {
+                document.getElementById('tab-content-capaian').classList.remove('hidden');
+                document.getElementById('tab-btn-capaian').className = activeStyle;
+            } else if (tabName === 'absen') {
+                document.getElementById('tab-content-absen').classList.remove('hidden');
+                document.getElementById('tab-btn-absen').className = activeStyle;
+            } else if (tabName === 'infaq') {
+                document.getElementById('tab-content-infaq').classList.remove('hidden');
+                document.getElementById('tab-btn-infaq').className = activeStyle;
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('userSession');
+            const baseUrl = "<?= webAppUrl ?>";
+            window.location.href = baseUrl + "?page=Homepage";
+        }
+    </script>
+</body>
+</html>

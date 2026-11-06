@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Nilai Rapor - Rumah Tahfidz Al Arba</title>
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        arba: {
+                            50: '#f4f7fb', 100: '#e5ecf5', 200: '#cddceb',
+                            500: '#6b93c4', 600: '#5278a9', 700: '#41618c',
+                            800: '#2d4669', 900: '#1e304b'
+                        }
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER NAVIGATION -->
+    <header class="bg-gradient-to-r from-arba-900 via-arba-800 to-arba-900 text-white shadow-xl sticky top-0 z-40 border-b border-arba-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <div class="flex items-center space-x-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-white p-1.5 shadow-md flex items-center justify-center border border-arba-100">
+                        <img src="https://i.ibb.co/3ykG5M0/logo-alarba.jpg" alt="Logo Al Arba" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Al-Arba';">
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-extrabold leading-tight tracking-wide text-white">Form Input Nilai Rapor</h1>
+                        <p class="text-xs text-arba-200 opacity-90 font-medium">Sinkronisasi Ke Sheet Nilai_Rapor (26 Kolom)</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <button onclick="backToGuru()" class="bg-arba-700 hover:bg-arba-600 text-white px-4 py-2 rounded-xl font-bold text-xs transition border border-arba-600 flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali ke Portal Guru</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN FORM CONTENT -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-6">
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
+                <div>
+                    <h2 class="text-xl font-extrabold text-arba-900">Pengisian Lembar Rapor Evaluasi Santri</h2>
+                    <p class="text-xs text-slate-500">Pilih santri dan lengkapi indikator penilaian semester ini</p>
+                </div>
+                <div class="bg-arba-50 px-3.5 py-1.5 rounded-xl border border-arba-200/60 text-xs text-arba-800 font-semibold">
+                    <i class="fa-solid fa-table-cells mr-1"></i> Target Sheet: <strong>Nilai_Rapor</strong>
+                </div>
+            </div>
+
+            <!-- ALERT NOTIFIKASI -->
+            <div id="rapor-alert" class="hidden p-4 rounded-2xl text-xs font-semibold"></div>
+
+            <form onsubmit="handleRaporSubmit(event)" class="space-y-6">
+
+                <!-- INFORMASI DASAR (HEADER RAPOR) -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200/70">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Santri *</label>
+                        <select id="r-santri-select" onchange="onSantriSelectChange()" required class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white focus:ring-2 focus:ring-arba-500">
+                            <option value="">-- Memuat Santri --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Semester *</label>
+                        <select id="r-semester" required class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <option value="2 (Dua)" selected>2 (Dua)</option>
+                            <option value="1 (Satu)">1 (Satu)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Tahun Pelajaran *</label>
+                        <input type="text" id="r-tahun" value="2025/2026" required class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                    </div>
+
+                    <div class="sm:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">ID Santri (Automatis)</label>
+                            <input type="text" id="r-id-santri" readonly class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-slate-100 text-slate-500 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Wali Kelas / Pengajar *</label>
+                            <input type="text" id="r-wali-kelas" required placeholder="Contoh: Eva Nurjanah, S.Si." class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEKTOR 1: ASPEK HALAQAH -->
+                <div class="space-y-4">
+                    <h3 class="font-extrabold text-sm text-arba-900 flex items-center gap-2 border-b pb-2">
+                        <i class="fa-solid fa-users-rectangle text-arba-500"></i> A. Aspek Halaqah
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Adab di Kelas (Mutu)</label>
+                            <select id="r-adab-mutu" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                                <option value="A">A (Mumtaz)</option>
+                                <option value="B" selected>B (Jayyid Jiddan)</option>
+                                <option value="C">C (Jayyid)</option>
+                                <option value="D">D (Maqbul)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Murajaah Hafalan (Mutu)</label>
+                            <select id="r-murajaah-mutu" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                                <option value="A">A (Mumtaz)</option>
+                                <option value="B" selected>B (Jayyid Jiddan)</option>
+                                <option value="C">C (Jayyid)</option>
+                                <option value="D">D (Maqbul)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Pelafalan Huruf (Mutu)</label>
+                            <select id="r-pelafalan-mutu" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                                <option value="A">A (Mumtaz)</option>
+                                <option value="B" selected>B (Jayyid Jiddan)</option>
+                                <option value="C">C (Jayyid)</option>
+                                <option value="D">D (Maqbul)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Target Capaian Semester Ini</label>
+                            <input type="text" id="r-target-capaian" placeholder="Contoh: An Naba: 40" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Pencapaian Real Santri</label>
+                            <input type="text" id="r-pencapaian-real" placeholder="Contoh: An Naba: 40" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEKTOR 2: ASPEK TAHFIZH -->
+                <div class="space-y-4">
+                    <h3 class="font-extrabold text-sm text-arba-900 flex items-center gap-2 border-b pb-2">
+                        <i class="fa-solid fa-book-quran text-arba-500"></i> B. Aspek Tahfizh & Pembelajaran
+                    </h3>
+
+                    <!-- 1. IQRA HARIAN -->
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-xs text-arba-800">1. Iqra (Harian)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <input type="text" id="r-iqra-h-capaian" placeholder="Capaian (Contoh: Jilid 2: 9)" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <input type="number" id="r-iqra-h-nilai" placeholder="Nilai (0-100)" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <input type="text" id="r-iqra-h-catatan" placeholder="Catatan Perkembangan..." class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+
+                    <!-- 2. IQRA UJIAN -->
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-xs text-arba-800">2. Iqra (Ujian)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <input type="text" id="r-iqra-u-capaian" placeholder="Capaian (Contoh: Jilid 1: 31)" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <input type="number" id="r-iqra-u-nilai" placeholder="Nilai (0-100)" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <input type="text" id="r-iqra-u-catatan" placeholder="Catatan Ujian..." class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+
+                    <!-- 3. TAHFIDZ ZIYADAH -->
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-xs text-arba-800">3. Tahfidz (Ziyadah)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <input type="text" id="r-ziyadah-capaian" placeholder="Capaian (Contoh: An Naba: 40)" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <input type="number" id="r-ziyadah-nilai" placeholder="Nilai (0-100)" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <input type="text" id="r-ziyadah-catatan" placeholder="Catatan Ziyadah..." class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+
+                    <!-- 4. TAHFIDZ MUROJA'AH -->
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-xs text-arba-800">4. Tahfidz (Muroja'ah)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input type="number" id="r-murojaah-nilai" placeholder="Nilai Muroja'ah (0-100)" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                            <input type="text" id="r-murojaah-catatan" placeholder="Catatan Muroja'ah..." class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEKTOR 3: ASPEK DINIYYAH & CATATAN WALI KELAS -->
+                <div class="space-y-4">
+                    <h3 class="font-extrabold text-sm text-arba-900 flex items-center gap-2 border-b pb-2">
+                        <i class="fa-solid fa-star text-arba-500"></i> C. Aspek Diniyyah & Catatan Guru
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Nilai Hafalan Do'a (0-100)</label>
+                            <input type="number" id="r-nilai-doa" placeholder="Contoh: 77" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Nilai Tauhid (0-100)</label>
+                            <input type="number" id="r-nilai-tauhid" placeholder="Contoh: 55" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Catatan Umum Wali Kelas / Pengajar *</label>
+                        <textarea id="r-catatan-guru" rows="4" required placeholder="Tuliskan narasi apresiasi, adab, serta perkembangan hafalan santri..." class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white"></textarea>
+                    </div>
+                </div>
+
+                <!-- SEKTOR 4: DATA MUDIR & PENGESAHAN -->
+                <div class="space-y-4">
+                    <h3 class="font-extrabold text-sm text-arba-900 flex items-center gap-2 border-b pb-2">
+                        <i class="fa-solid fa-stamp text-arba-500"></i> Pengesahan Mudir
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Mudir Tahfidz</label>
+                            <input type="text" id="r-mudir-nama" value="Eko Budi Aji Pangestu, S.Sos." class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">NIY Mudir</label>
+                            <input type="text" id="r-mudir-niy" value="01 0622 001" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" id="btn-save-rapor" class="w-full bg-arba-800 hover:bg-arba-900 text-white font-bold py-3.5 rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
+                    <span>Simpan & Permanenkan Nilai Rapor</span>
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <!-- CLIENT SCRIPT -->
+    <script>
+        let santriList = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSantriOptions();
+        });
+
+        function loadSantriOptions() {
+            google.script.run.withSuccessHandler(data => {
+                santriList = data || [];
+                const select = document.getElementById('r-santri-select');
+                select.innerHTML = '<option value="">-- Pilih Santri --</option>';
+
+                santriList.forEach(s => {
+                    select.innerHTML += `<option value="${s.id}">${s.nama} (${s.kelas})</option>`;
+                });
+            }).getSantriData('', 'Guru/Pengajar');
+        }
+
+        function onSantriSelectChange() {
+            const selectedId = document.getElementById('r-santri-select').value;
+            document.getElementById('r-id-santri').value = selectedId;
+        }
+
+        function handleRaporSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-save-rapor');
+            const alertBox = document.getElementById('rapor-alert');
+
+            const selectedSantriObj = santriList.find(s => s.id === document.getElementById('r-id-santri').value) || {};
+
+            const payload = {
+                idRapor: 'RAP-' + Date.now(),
+                idSantri: document.getElementById('r-id-santri').value,
+                semester: document.getElementById('r-semester').value,
+                tahunPelajaran: document.getElementById('r-tahun').value,
+                waliKelas: document.getElementById('r-wali-kelas').value,
+                adabMutu: document.getElementById('r-adab-mutu').value,
+                murajaahMutu: document.getElementById('r-murajaah-mutu').value,
+                pelafalanMutu: document.getElementById('r-pelafalan-mutu').value,
+                targetCapaian: document.getElementById('r-target-capaian').value,
+                pencapaianReal: document.getElementById('r-pencapaian-real').value,
+                iqraHarianCapaian: document.getElementById('r-iqra-h-capaian').value,
+                iqraHarianNilai: document.getElementById('r-iqra-h-nilai').value,
+                iqraHarianCatatan: document.getElementById('r-iqra-h-catatan').value,
+                iqraUjianCapaian: document.getElementById('r-iqra-u-capaian').value,
+                iqraUjianNilai: document.getElementById('r-iqra-u-nilai').value,
+                iqraUjianCatatan: document.getElementById('r-iqra-u-catatan').value,
+                ziyadahCapaian: document.getElementById('r-ziyadah-capaian').value,
+                ziyadahNilai: document.getElementById('r-ziyadah-nilai').value,
+                ziyadahCatatan: document.getElementById('r-ziyadah-catatan').value,
+                murojaahNilai: document.getElementById('r-murojaah-nilai').value,
+                murojaahCatatan: document.getElementById('r-murojaah-catatan').value,
+                nilaiDoa: document.getElementById('r-nilai-doa').value,
+                nilaiTauhid: document.getElementById('r-nilai-tauhid').value,
+                catatanGuru: document.getElementById('r-catatan-guru').value,
+                mudirNama: document.getElementById('r-mudir-nama').value,
+                mudirNIY: document.getElementById('r-mudir-niy').value
+            };
+
+            btn.disabled = true;
+            btn.innerText = "Menyimpan ke Spreadsheet Nilai_Rapor...";
+            alertBox.classList.add('hidden');
+
+            google.script.run.withSuccessHandler(res => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up text-sm"></i><span>Simpan & Permanenkan Nilai Rapor</span>';
+
+                if (res.success) {
+                    alertBox.className = "p-4 rounded-2xl text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800 block";
+                    alertBox.innerText = res.message;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    alertBox.className = "p-4 rounded-2xl text-xs font-semibold bg-rose-50 border border-rose-200 text-rose-800 block";
+                    alertBox.innerText = res.message;
+                }
+            }).saveNilaiRapor(payload);
+        }
+
+        function backToGuru() {
+            const baseUrl = "<?= webAppUrl ?>";
+            window.location.href = baseUrl + "?page=Guru";
+        }
+    </script>
+</body>
+</html>
