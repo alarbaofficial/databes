@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <title>Rumah Tahfidz Al Arba</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumah Tahfidz Al Arba - Lembaga Pendidikan Al-Qur'an</title>
     <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,311 +24,283 @@
             }
         }
     </script>
-    <style>
-        @media print {
-            body * { visibility: hidden; }
-            #rapor-print-area, #rapor-print-area * { visibility: visible; }
-            #rapor-print-area { position: absolute; left: 0; top: 0; width: 100%; }
-            .no-print { display: none !important; }
-        }
-    </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-arba-500 selection:text-white">
+
+    <!-- TOP BAR INFORMASI -->
+    <div class="bg-arba-900 text-arba-200 text-xs py-2 px-4 border-b border-arba-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-4">
+                <span><i class="fa-solid fa-location-dot text-arba-500 mr-1.5"></i> RW 12 Kel. Dago, Coblong, Bandung</span>
+                <span class="hidden md:inline"><i class="fa-solid fa-envelope text-arba-500 mr-1.5"></i> alarbaofficial@gmail.com</span>
+            </div>
+            <div class="flex items-center space-x-3 text-[11px]">
+                <span class="font-semibold text-arba-100">خير الناس أنفعهم للناس</span>
+                <span class="text-arba-700">•</span>
+                <span>Lembaga Pendidikan Al-Qur'an</span>
+            </div>
+        </div>
+    </div>
 
     <!-- HEADER NAVIGATION -->
-    <header class="bg-gradient-to-r from-arba-900 via-arba-800 to-arba-900 text-white shadow-xl sticky top-0 z-50 border-b border-arba-700/50">
+    <header class="bg-white text-slate-800 shadow-sm sticky top-0 z-40 border-b border-slate-200/80 backdrop-blur-md bg-white/95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
+                
+                <!-- BRANDING & LOGO -->
                 <div class="flex items-center space-x-3.5">
-                    <div class="w-12 h-12 rounded-2xl bg-white p-1.5 shadow-md flex items-center justify-center border border-arba-100">
+                    <div class="w-12 h-12 rounded-2xl bg-arba-50 p-1.5 shadow-sm flex items-center justify-center border border-arba-200/60">
                         <img src="https://i.ibb.co/3ykG5M0/logo-alarba.jpg" alt="Logo Al Arba" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Al-Arba';">
                     </div>
                     <div>
-                        <h1 class="text-xl font-extrabold leading-tight tracking-wide text-white">Rumah Tahfidz Al Arba</h1>
-                        <p class="text-xs text-arba-200 opacity-90 font-medium">خير الناس أنفعهم للناس • Portal Manajemen Santri</p>
+                        <h1 class="text-lg font-extrabold leading-tight tracking-wide text-arba-900">Rumah Tahfidz Al Arba</h1>
+                        <p class="text-[11px] text-slate-500 font-medium">Sistem Informasi & Pembinaan Mutaba'ah Santri</p>
                     </div>
                 </div>
 
-                <div id="user-session" class="hidden flex items-center space-x-3">
-                    <span id="session-name" class="text-xs bg-arba-800/80 px-4 py-2 rounded-xl border border-arba-700/60 font-semibold text-arba-100 shadow-inner"></span>
-                    <button onclick="logout()" class="text-xs bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl font-bold transition shadow-md">
-                        <i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar
+                <!-- NAV LINKS -->
+                <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold text-slate-600">
+                    <a href="#beranda" class="hover:text-arba-600 transition">Beranda</a>
+                    <a href="#tentang" class="hover:text-arba-600 transition">Tentang Kami</a>
+                    <a href="#program" class="hover:text-arba-600 transition">Program Kelas</a>
+                    <a href="#galeri" class="hover:text-arba-600 transition">Kegiatan</a>
+                    <a href="#kontak" class="hover:text-arba-600 transition">Kontak</a>
+                </nav>
+
+                <!-- PORTAL LOGIN BUTTON (PROPORSIONAL DI POJOK ATAS) -->
+                <div>
+                    <button onclick="openLoginModal()" class="bg-arba-800 hover:bg-arba-900 text-white px-5 py-2.5 rounded-xl font-bold text-xs shadow-md hover:shadow-lg transition duration-200 flex items-center gap-2 border border-arba-700">
+                        <i class="fa-solid fa-right-to-bracket text-xs text-arba-200"></i>
+                        <span>Masuk Portal</span>
                     </button>
                 </div>
+
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+    <!-- MAIN HERO & CONTENT -->
+    <main class="flex-grow w-full space-y-16 py-8">
 
-        <!-- PAGE 1: LANDING & LOGIN -->
-        <div id="page-landing" class="space-y-8">
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- HERO SECTION -->
+        <section id="beranda" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-br from-arba-900 via-arba-800 to-arba-900 text-white p-8 sm:p-12 rounded-3xl shadow-2xl border border-arba-700/40 relative overflow-hidden">
+                <div class="absolute -right-12 -bottom-12 opacity-10 text-9xl font-serif pointer-events-none">Al Arba</div>
                 
-                <!-- INFORMASI RUMAH TAHFIDZ AL ARBA -->
-                <div class="lg:col-span-7 space-y-6">
+                <div class="max-w-3xl space-y-5 relative z-10">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-arba-500/20 text-arba-100 border border-arba-500/40 text-[11px] font-bold rounded-full tracking-wider uppercase backdrop-blur-xs">
+                        <i class="fa-solid fa-kaaba text-arba-500"></i> Rumah Tahfizh Pertama di RW 12 Dago
+                    </span>
                     
-                    <!-- LATAR BELAKANG & GROWTH POINT -->
-                    <div class="bg-gradient-to-br from-arba-900 via-arba-800 to-arba-900 text-white p-7 rounded-3xl shadow-xl border border-arba-700/40 relative overflow-hidden">
-                        <span class="inline-block px-3.5 py-1 bg-arba-500/30 text-arba-100 border border-arba-500/50 text-[11px] font-bold rounded-full mb-3 tracking-wider uppercase">Latar Belakang & Perkembangan</span>
-                        <h2 class="text-xl sm:text-2xl font-bold leading-snug tracking-tight text-white mb-2">Rumah Tahfizh Pertama di RW 12 Kel. Dago</h2>
-                        <p class="text-xs text-arba-200 leading-relaxed opacity-95 mb-3">
-                            Rumah Tahfidz Al Arba' adalah lembaga sosial nonpemerintah (non-government organization) yang bergerak dalam pendidikan Tahfizh Al-Qur’an dan berfokus pada perbaikan bacaan serta pelafalan dalam membaca Al-Qur’an hingga fasih. Program ini diperuntukkan bagi anak-anak serta remaja usia sekolah.
-                        </p>
-                        <div class="p-3.5 bg-arba-800/60 rounded-2xl border border-arba-700/50 text-xs text-arba-100 space-y-1.5">
-                            <p class="font-semibold text-arba-50"><i class="fa-solid fa-chart-line text-arba-500 mr-1.5"></i> Growth Point:</p>
-                            <p class="opacity-90 leading-relaxed text-[11px]">
-                                Seiring dengan tingkat kepercayaan dan kebutuhan dari masyarakat sekitar, Rumah Tahfizh Al Arba' meluaskan pembukaan kelas dengan jumlah santri lebih dari 60 orang (TK hingga SMA). Untuk menjaga kredibilitas pengajar, diselenggarakan program setoran hafalan santri yang diujiankan (tasmi’) setiap 3 bulan sekali per 1 juz dalam sekali duduk.
-                            </p>
-                        </div>
-                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-white">
+                        Mewujudkan Generasi Qur'ani yang Berakhlak Mulia
+                    </h2>
+                    
+                    <p class="text-xs sm:text-sm text-arba-200 leading-relaxed opacity-95">
+                        Rumah Tahfidz Al Arba' adalah lembaga sosial non-pemerintah (NGO) yang berfokus pada pendidikan Tahfizh Al-Qur’an, perbaikan bacaan (tahsin), dan kelancaran pelafalan huruf hingga fasih bagi anak-anak dan remaja usia sekolah.
+                    </p>
 
-                    <!-- VISI & MISI -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-arba-800 flex items-center gap-2 text-sm"><i class="fa-solid fa-bullseye text-arba-500"></i> Visi</h4>
-                            <p class="text-xs text-slate-600 mt-2 leading-relaxed">Mencetak generasi penghafal Al-Qur’an yang unggul dan berakhlaqul karimah.</p>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-arba-800 flex items-center gap-2 text-sm"><i class="fa-solid fa-list-check text-arba-500"></i> Misi</h4>
-                            <ul class="text-xs text-slate-600 mt-2 leading-relaxed list-disc list-inside space-y-1">
-                                <li>Membudayakan kebiasaan membaca & menghafal Al-Qur’an.</li>
-                                <li>Meningkatkan kefasihan dalam membaca Al-Qur’an.</li>
-                                <li>Menumbuhkan semangat mengimplementasikan Al-Qur’an dalam kehidupan sehari-hari.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- PROGRAM KELAS -->
-                    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-                        <h3 class="font-bold text-arba-900 text-sm flex items-center gap-2 border-b pb-3">
-                            <i class="fa-solid fa-book-open-reader text-arba-500"></i> Tingkatan Program Pembelajaran
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200/60">
-                                <h5 class="font-bold text-xs text-arba-800 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-book text-amber-500"></i> Kelas Iqro</h5>
-                                <p class="text-[11px] text-slate-600 leading-relaxed">Tahap awal belajar membaca. Santri mengenal huruf hijaiyah, harakat dasar, dan merangkai huruf menjadi kata dengan lancar sebagai pondasi sebelum tajwid mendalam.</p>
-                            </div>
-                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200/60">
-                                <h5 class="font-bold text-xs text-arba-800 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles text-emerald-500"></i> Kelas Tahsin</h5>
-                                <p class="text-[11px] text-slate-600 leading-relaxed">Memperbaiki dan membaguskan bacaan. Fokus pada ketepatan makharijul huruf, mad (panjang pendek), dan tajwid dasar (ghunnah) agar membaca Al-Qur'an dengan tartil dan indah.</p>
-                            </div>
-                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200/60">
-                                <h5 class="font-bold text-xs text-arba-800 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-kaaba text-arba-500"></i> Kelas Tahfizh</h5>
-                                <p class="text-[11px] text-slate-600 leading-relaxed">Fokus pada kelancaran setoran hafalan surat baru (ziyadah) serta kedisiplinan mengulang hafalan lama (muraja'ah) dengan tetap mempertahankan tajwid yang benar.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- FORMULIR LOGIN -->
-                <div class="lg:col-span-5 bg-white p-8 rounded-3xl shadow-xl border border-slate-200/80">
-                    <div class="text-center mb-6">
-                        <div class="w-20 h-20 rounded-2xl bg-arba-50 border border-arba-200 p-2.5 mx-auto mb-3 flex items-center justify-center shadow-inner">
-                            <img src="https://i.ibb.co/3ykG5M0/logo-alarba.jpg" alt="Logo Al Arba" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Al-Arba';">
-                        </div>
-                        <h3 class="text-lg font-extrabold text-arba-900">Masuk ke Akun Anda</h3>
-                        <p class="text-xs text-slate-500 mt-1">Sistem Informasi & Manajemen Al Arba</p>
-                    </div>
-
-                    <!-- Alert Pesan Error Login -->
-                    <div id="login-alert" class="hidden mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl font-medium"></div>
-
-                    <form onsubmit="handleLogin(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-arba-900 mb-1.5">ID Pengguna / Username</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-arba-500 text-xs"></i>
-                                <input type="text" id="login-username" required placeholder="S-001 / G-003 / admin" class="w-full pl-10 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-arba-500 focus:outline-none transition">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-arba-900 mb-1.5">Kata Sandi</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-arba-500 text-xs"></i>
-                                <input type="password" id="login-password" required placeholder="••••••••" class="w-full pl-10 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-arba-500 focus:outline-none transition">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-arba-900 mb-1.5">Masuk Sebagai (Peran)</label>
-                            <div class="relative">
-                                <i class="fa-solid fa-id-badge absolute left-3.5 top-3.5 text-arba-500 text-xs"></i>
-                                <select id="login-role" required class="w-full pl-10 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-arba-500 focus:outline-none bg-white transition">
-                                    <option value="Wali/Santri">👨‍👩‍👧‍👦 Wali / Santri</option>
-                                    <option value="Guru/Pengajar">👨‍🏫 Guru / Pengajar</option>
-                                    <option value="Admin">🛠️ Admin</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" id="btn-login" class="w-full bg-arba-800 hover:bg-arba-900 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-lg flex items-center justify-center gap-2">
-                            <span>Masuk ke Portal</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="openLoginModal()" class="bg-arba-500 hover:bg-arba-600 text-white px-6 py-3 rounded-xl font-bold text-xs shadow-lg transition flex items-center gap-2">
+                            <span>Masuk ke Portal Santri / Guru</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
                         </button>
-                    </form>
+                        <a href="#tentang" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-6 py-3 rounded-xl font-semibold text-xs transition backdrop-blur-xs">
+                            Pelajari Selengkapnya
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TENTANG KAMI & GROWTH POINT -->
+        <section id="tentang" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <!-- LATAR BELAKANG -->
+                <div class="lg:col-span-7 bg-white p-7 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center gap-2 text-arba-600 font-bold text-xs uppercase tracking-wider mb-2">
+                            <i class="fa-solid fa-landmark"></i> Latar Belakang & Perjalanan
+                        </div>
+                        <h3 class="text-xl font-extrabold text-arba-900 mb-3">Pendidikan Al-Qur'an Berbasis Pembinaan Karakter</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed space-y-2">
+                            Sebagai Rumah Tahfizh pelopor di lingkungan RW 12 Kelurahan Dago, Kecamatan Coblong, Rumah Tahfizh Al Arba' berkomitmen membimbing santri secara bertahap mulai dari pengenalan huruf dasar hingga pelafalan ayat yang tartil dan indah.
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-arba-50/80 rounded-2xl border border-arba-200/60 text-xs text-arba-900 space-y-1.5">
+                        <p class="font-bold flex items-center gap-2 text-arba-800">
+                            <i class="fa-solid fa-chart-line text-arba-500"></i> Growth Point & Kepercayaan Masyarakat:
+                        </p>
+                        <p class="text-slate-600 leading-relaxed text-[11px]">
+                            Seiring meningkatnya kepercayaan masyarakat akan pentingnya pendidikan Al-Qur'an, kelas kini berkembang menampung lebih dari 60 santri (usia TK hingga SMA). Demi menjaga kualitas dan kredibilitas, diselenggarakan program Ujian Tasmi’ setiap 3 bulan sekali (1 juz sekali duduk).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- VISI & MISI -->
+                <div class="lg:col-span-5 bg-arba-900 text-white p-7 sm:p-8 rounded-3xl shadow-lg border border-arba-800 flex flex-col justify-between space-y-6">
+                    <div>
+                        <span class="text-arba-500 font-bold text-xs uppercase tracking-wider">Arah Pendidikan</span>
+                        <h3 class="text-xl font-extrabold text-white mt-1 mb-4">Visi & Misi Al Arba</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="border-l-2 border-arba-500 pl-3">
+                                <h4 class="font-bold text-xs text-arba-200 uppercase">Visi</h4>
+                                <p class="text-xs text-slate-200 mt-1">Mencetak generasi penghafal Al-Qur’an yang unggul dan berakhlaqul karimah.</p>
+                            </div>
+
+                            <div class="border-l-2 border-arba-500 pl-3">
+                                <h4 class="font-bold text-xs text-arba-200 uppercase">Misi Utama</h4>
+                                <ul class="text-xs text-slate-300 mt-1.5 space-y-1 list-disc list-inside">
+                                    <li>Membudayakan kebiasaan membaca & menghafal Al-Qur’an;</li>
+                                    <li>Meningkatkan kefasihan dalam membaca Al-Qur’an;</li>
+                                    <li>Menumbuhkan semangat mengimplementasikan Al-Qur’an dalam kehidupan harian.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- PROGRAM KELAS PEMBELAJARAN BERJENJANG -->
+        <section id="program" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/80 shadow-sm space-y-8">
+                
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="text-arba-600 font-bold text-xs uppercase tracking-wider">Kurikulum & Pembelajaran</span>
+                    <h3 class="text-2xl font-extrabold text-arba-900">Tingkatan Kelas Pembelajaran</h3>
+                    <p class="text-xs text-slate-500">Dirancang secara bertahap sesuai dengan kemampuan dan tingkat perkembangan santri</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- KELAS IQRO -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 hover:border-arba-300 transition group hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-extrabold text-base mb-4 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <h4 class="font-extrabold text-base text-arba-900 mb-2">1. Kelas Iqro</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Tahap awal belajar membaca. Santri dikenalkan pada huruf hijaiyah, harakat dasar (fathah, kasrah, dammah), serta merangkai huruf menjadi kata secara bertahap sebagai pondasi sebelum mendalami tajwid.
+                        </p>
+                    </div>
+
+                    <!-- KELAS TAHSIN -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 hover:border-arba-300 transition group hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-extrabold text-base mb-4 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h4 class="font-extrabold text-base text-arba-900 mb-2">2. Kelas Tahsin</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Tahap membaguskan dan meyakinkan bacaan. Fokus pada ketepatan bunyi huruf (makharijul huruf), hukum panjang pendek (mad), dan tajwid dasar (ghunnah) agar membaca Al-Qur'an secara tartil dan benar.
+                        </p>
+                    </div>
+
+                    <!-- KELAS TAHFIZH -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 hover:border-arba-300 transition group hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-arba-100 text-arba-700 flex items-center justify-center font-extrabold text-base mb-4 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-kaaba"></i>
+                        </div>
+                        <h4 class="font-extrabold text-base text-arba-900 mb-2">3. Kelas Tahfizh</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Tahap hafalan mendalam. Santri yang bacaannya sudah baik difokuskan pada kelancaran setoran hafalan surat baru (ziyadah) dan pengulangan hafalan lama (muraja'ah) secara konsisten.
+                        </p>
+                    </div>
+
                 </div>
 
             </div>
+        </section>
 
-        </div>
-
-        <!-- PAGE 2: DASHBOARD PORTAL -->
-        <div id="page-portal" class="hidden space-y-6">
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="flex overflow-x-auto border-b border-slate-200" id="portal-tabs"></div>
+        <!-- GALERI KEGIATAN -->
+        <section id="galeri" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-extrabold text-arba-900">Galeri & Dokumentasi Kegiatan</h3>
+                    <p class="text-xs text-slate-500">Suasana pembelajaran dan pembinaan santri di Rumah Tahfidz Al Arba</p>
+                </div>
             </div>
-            <div id="tab-content" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6"></div>
-        </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="poster-gallery">
+                <div class="relative group overflow-hidden rounded-2xl border border-slate-200 shadow-xs h-48">
+                    <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=600&q=80" alt="Tahfidz Qur'an" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-arba-900/90 via-transparent to-transparent p-4 flex items-end">
+                        <p class="text-xs font-bold text-white">Pembelajaran Tahfidz & Setoran Hafalan Harian</p>
+                    </div>
+                </div>
+
+                <div class="relative group overflow-hidden rounded-2xl border border-slate-200 shadow-xs h-48">
+                    <img src="https://images.unsplash.com/photo-1585036156171-384164a8c675?auto=format&fit=crop&w=600&q=80" alt="Halaqah Adab" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-arba-900/90 via-transparent to-transparent p-4 flex items-end">
+                        <p class="text-xs font-bold text-white">Halaqah Pembinaan Adab & Akhlak Santri</p>
+                    </div>
+                </div>
+
+                <div class="relative group overflow-hidden rounded-2xl border border-slate-200 shadow-xs h-48">
+                    <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=600&q=80" alt="Evaluasi Rapor" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-arba-900/90 via-transparent to-transparent p-4 flex items-end">
+                        <p class="text-xs font-bold text-white">Ujian Tasmi' & Penilaian Evaluasi Rapor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFORMASI KONTAK & LOKASI -->
+        <section id="kontak" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-arba-900 text-white rounded-3xl p-8 sm:p-10 border border-arba-800 shadow-xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <span class="text-arba-500 font-bold text-xs uppercase tracking-wider">Lokasi & Kontak Resmi</span>
+                    <h3 class="text-2xl font-extrabold text-white">Rumah Tahfidz Al Arba</h3>
+                    <p class="text-xs text-arba-200 leading-relaxed">
+                        Jl. Sangkuriang Dalam No. 40/160A, Kelurahan Dago, Kecamatan Coblong, Kota Bandung, Jawa Barat 40135.
+                    </p>
+
+                    <div class="space-y-2 text-xs text-slate-300 pt-2">
+                        <p class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-arba-500 w-4"></i> 0822 1674 5411 / 0851 7407 5889
+                        </p>
+                        <p class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-arba-500 w-4"></i> alarbaofficial@gmail.com
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-arba-800/80 p-6 rounded-2xl border border-arba-700/60 text-center space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-white">Portal Akses Terintegrasi</h4>
+                        <p class="text-xs text-arba-200 mt-1">Orang Tua / Wali Santri & Guru Pengajar dapat memantau serta menginput perkembangan santri via Portal Akses.</p>
+                    </div>
+                    <button onclick="openLoginModal()" class="w-full bg-arba-500 hover:bg-arba-600 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-md">
+                        Buka Portal Akses Sekarang
+                    </button>
+                </div>
+            </div>
+        </section>
 
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-4 mt-auto no-print">
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            &copy; 2026 Rumah Tahfidz Al Arba. Integrated with Google Sheets Database.
+            &copy; 2026 Rumah Tahfidz Al Arba. Integrated Google Sheets System.
         </div>
     </footer>
 
-    <!-- LOGIC APPS SCRIPT -->
-    <script>
-        let currentUser = null;
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('login-username').value;
-            const p = document.getElementById('login-password').value;
-            const r = document.getElementById('login-role').value;
-            const alertBox = document.getElementById('login-alert');
-
-            alertBox.classList.add('hidden');
-            document.getElementById('btn-login').innerText = "Memverifikasi...";
+    <!-- MODAL POP-UP LOGIN PORTAL -->
+    <div id="login-modal" class="fixed inset-0 z-50 bg-arba-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-100 p-7 relative transform transition-all">
             
-            google.script.run.withSuccessHandler(res => {
-                document.getElementById('btn-login').innerText = "Masuk ke Portal";
-                if(res.success) {
-                    currentUser = res.user;
-                    initPortal();
-                } else {
-                    alertBox.innerText = res.message;
-                    alertBox.classList.remove('hidden');
-                }
-            }).processLogin(u, p, r);
-        }
+            <button onclick="closeLoginModal()" class="absolute right-5 top-5 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
 
-        function initPortal() {
-            document.getElementById('page-landing').classList.add('hidden');
-            document.getElementById('page-portal').classList.remove('hidden');
-            document.getElementById('user-session').classList.remove('hidden');
-            document.getElementById('session-name').innerText = `${currentUser.nama} (${currentUser.role})`;
-            renderTabs();
-        }
-
-        function renderTabs() {
-            const tabNav = document.getElementById('portal-tabs');
-            let tabsHtml = '';
-
-            if(currentUser.role === 'Wali/Santri') {
-                tabsHtml = `<button onclick="loadWaliView()" class="px-5 py-3 text-sm font-semibold border-b-2 border-arba-600 text-arba-700">Perkembangan & Rapor Santri</button>`;
-                loadWaliView();
-            } else if(currentUser.role === 'Guru/Pengajar') {
-                tabsHtml = `
-                    <button onclick="loadMutabaahForm()" class="px-5 py-3 text-sm font-semibold border-b-2 border-arba-600 text-arba-700">Input Mutaba'ah</button>
-                    <button onclick="loadInputRaporForm()" class="px-5 py-3 text-sm font-semibold text-slate-500">Input Nilai Rapor</button>
-                `;
-                loadMutabaahForm();
-            } else {
-                tabsHtml = `<button onclick="loadAdminView()" class="px-5 py-3 text-sm font-semibold border-b-2 border-arba-600 text-arba-700">Manajemen Master Data</button>`;
-                loadAdminView();
-            }
-            tabNav.innerHTML = tabsHtml;
-        }
-
-        function loadWaliView() {
-            google.script.run.withSuccessHandler(data => {
-                const santri = data[0] || {};
-                document.getElementById('tab-content').innerHTML = `
-                    <div class="space-y-4">
-                        <div class="bg-arba-50 p-5 rounded-2xl border border-arba-200">
-                            <h3 class="text-lg font-bold text-arba-900">${santri.nama || 'Nama Santri'}</h3>
-                            <p class="text-xs text-arba-700">ID: ${santri.id} | Kelas: ${santri.kelas} | Status: ${santri.status}</p>
-                            <p class="text-xs text-arba-800 font-semibold mt-1.5">Capaian Saat Ini: ${santri.capaian}</p>
-                        </div>
-                        <button onclick="window.print()" class="bg-arba-800 hover:bg-arba-900 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm"><i class="fa-solid fa-print"></i> Cetak Rapor PDF</button>
-                    </div>
-                `;
-            }).getSantriData(currentUser.relasiId, currentUser.role);
-        }
-
-        function loadMutabaahForm() {
-            document.getElementById('tab-content').innerHTML = `
-                <h3 class="font-bold text-arba-900 mb-4">Input Setoran Hafalan Harian</h3>
-                <form onsubmit="submitMutabaah(event)" class="space-y-3 max-w-lg">
-                    <input type="date" id="m-tgl" required class="w-full p-2.5 text-sm border rounded-xl">
-                    <input type="text" id="m-nama" placeholder="Nama Santri" required class="w-full p-2.5 text-sm border rounded-xl">
-                    <input type="text" id="m-capaian" placeholder="Capaian (misal: Juz 30 / An-Naba)" required class="w-full p-2.5 text-sm border rounded-xl">
-                    <select id="m-lancar" class="w-full p-2.5 text-sm border rounded-xl">
-                        <option value="Mumtaz (Lancar)">Mumtaz (Lancar)</option>
-                        <option value="Jayyid (Cukup)">Jayyid (Cukup)</option>
-                        <option value="Muraja'ah (Perlu Perbaikan)">Muraja'ah (Perlu Perbaikan)</option>
-                    </select>
-                    <textarea id="m-catatan" placeholder="Catatan Ustaz..." class="w-full p-2.5 text-sm border rounded-xl"></textarea>
-                    <button type="submit" class="bg-arba-800 hover:bg-arba-900 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md transition">Simpan Mutaba'ah</button>
-                </form>
-            `;
-            document.getElementById('m-tgl').valueAsDate = new Date();
-        }
-
-        function submitMutabaah(e) {
-            e.preventDefault();
-            const log = {
-                tanggal: document.getElementById('m-tgl').value,
-                nama: document.getElementById('m-nama').value,
-                capaian: document.getElementById('m-capaian').value,
-                kelancaran: document.getElementById('m-lancar').value,
-                catatan: document.getElementById('m-catatan').value
-            };
-            google.script.run.withSuccessHandler(res => {
-                alert(res.message);
-                loadMutabaahForm();
-            }).saveMutabaah(log);
-        }
-
-        function loadAdminView() {
-            google.script.run.withSuccessHandler(data => {
-                let rows = data.map(s => `
-                    <tr class="border-b text-xs">
-                        <td class="p-2.5 font-bold">${s.id}</td>
-                        <td class="p-2.5">${s.nama}</td>
-                        <td class="p-2.5">${s.kelas}</td>
-                        <td class="p-2.5">${s.ortu} (${s.wa})</td>
-                        <td class="p-2.5"><span class="bg-arba-100 text-arba-800 font-semibold px-2.5 py-1 rounded-full">${s.status}</span></td>
-                    </tr>
-                `).join('');
-
-                document.getElementById('tab-content').innerHTML = `
-                    <h3 class="font-bold text-arba-900 mb-3">Master Data Santri Terdaftar</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border rounded-xl">
-                            <thead class="bg-arba-50 text-arba-900 text-xs font-bold">
-                                <tr><th class="p-2.5">ID</th><th class="p-2.5">Nama</th><th class="p-2.5">Kelas</th><th class="p-2.5">Orang Tua</th><th class="p-2.5">Status</th></tr>
-                            </thead>
-                            <tbody>${rows}</tbody>
-                        </table>
-                    </div>
-                `;
-            }).getSantriData('', 'Admin');
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('page-landing').classList.remove('hidden');
-            document.getElementById('page-portal').classList.add('hidden');
-            document.getElementById('user-session').classList.add('hidden');
-        }
-    </script>
-</body>
-</html>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-arba-50 border border-arba-100 p-2 mx-auto mb-3 flex items-center justify-center shadow-inner">
+                    <img src="https://i.ibb.co/3ykG5M0/logo-alarba.jpg" alt="Logo Al Arba" class="w-full h-full object-contain"
